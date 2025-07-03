@@ -18,5 +18,15 @@ def sugestao_nunca_jogado():
     #Fazer verificação depois se existem jogos não jogados na biblioteca do usuário.
     jogo_escolhido = random.choice(jogos_filtrados)
     return jogo_escolhido
+#Sugerir um jogo com pouco playtime (até 10 horas)
+@app.route('/poucotempodejogo')
+def sugestao_poucotempodejogo():
+    jogos = pegar_jogos(steamid)
+    jogos_filtrados = []
+    for jogo in jogos:
+        if jogo['playtime_forever'] > 0 and jogo['playtime_forever'] <= 600:
+            jogos_filtrados.append(jogo)
+    jogo_escolhido = random.choice(jogos_filtrados)
+    return jogo_escolhido
 
 app.run(port=5000,host='localhost',debug=True)
