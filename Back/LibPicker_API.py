@@ -21,6 +21,7 @@ def sugestao_nunca_jogado():
 #Sugerir um jogo com pouco playtime (até 10 horas)
 @app.route('/poucotempodejogo')
 def sugestao_poucotempodejogo():
+    # Fazer verificação depois se existem jogos na biblioteca do usuário.
     jogos = pegar_jogos(steamid)
     jogos_filtrados = []
     for jogo in jogos:
