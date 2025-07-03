@@ -30,4 +30,11 @@ def sugestao_poucotempodejogo():
     jogo_escolhido = random.choice(jogos_filtrados)
     return jogo_escolhido
 
+#Sorteio dentre todos os jogos incluindo os grátis
+@app.route('/sorteiotodos')
+def sorteiotodos():
+    jogos = pegar_jogos(steamid)
+    jogo_escolhido = random.choice(jogos)
+    return jogo_escolhido
+
 app.run(port=5000,host='localhost',debug=True)
