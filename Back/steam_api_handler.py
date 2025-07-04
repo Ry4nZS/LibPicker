@@ -10,10 +10,10 @@ KEY = os.getenv("KEY") # Chave da Steam API
 def pegar_jogos (steamid):
     url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="+ KEY +"&steamid="+ steamid +"&format=json&include_appinfo=true"
     resposta = requests.get(url) #Response != de dicionário
-    data = resposta.json() #Aqui tem o dicionário
+    data = resposta.json() #Transforma o JSON bruto em dict
     #precisa verificar se a lista retornou alguma coisa também
     if resposta.status_code == 200:
-        lista_jogos = data["response"].get("games") # Tratando o dict pegando só os jogos.
+        lista_jogos = data["response"].get("games") # data["response"]["games"] é uma LISTA de dicionários
         if lista_jogos is None:
             return "Não foram encontrados jogos."
         else:

@@ -4,7 +4,7 @@ from Back.steam_api_handler import *
 from dotenv import load_dotenv
 import os
 app = Flask(__name__) # Cria uma aplicação flask com o nome do arquivo atual.
-load_dotenv()
+load_dotenv() # Carrega as variaveis de ambientes de teste para o código
 steamid = os.getenv("steamid") # Pegando MEU steamid por enquanto
 
 #Sugerir um jogo aleatório que o usuário nunca jogou
@@ -25,7 +25,7 @@ def sugestao_poucotempodejogo():
     jogos = pegar_jogos(steamid)
     jogos_filtrados = []
     for jogo in jogos:
-        if jogo['playtime_forever'] > 0 and jogo['playtime_forever'] <= 600:
+        if jogo['playtime_forever'] > 0 and jogo['playtime_forever'] <= 600: # O playtime é medido em minutos
             jogos_filtrados.append(jogo)
     jogo_escolhido = random.choice(jogos_filtrados)
     return jogo_escolhido
@@ -36,5 +36,17 @@ def sorteiotodos():
     jogos = pegar_jogos(steamid)
     jogo_escolhido = random.choice(jogos)
     return jogo_escolhido
+
+@app.route('/maisjogados')
+def maisjogados():
+    jogos = pegar_jogos(steamid)
+    jogos_filtrados = []
+    jogos.sort(key=lambda jogo: jogo['playtime_forever'], reverse=True)
+    jogos_filtrados = jogos[:5]
+    return random.choice(jogos_filtrados)
+
+#app.route('/esquecidos')
+#def esquecidos():
+
 
 app.run(port=5000,host='localhost',debug=True)
