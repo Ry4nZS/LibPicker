@@ -3,7 +3,8 @@ from flask import Flask, jsonify, request
 from Back.steam_api_handler import *
 from dotenv import load_dotenv
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
+
 app = Flask(__name__) # Cria uma aplicação flask com o nome do arquivo atual.
 load_dotenv() # Carrega as variaveis de ambientes de teste para o código
 steamid = os.getenv("steamid") # Pegando MEU steamid por enquanto
@@ -61,14 +62,14 @@ def maisjogados():
     jogos_filtrados = jogos[:5]
     jogo_escolhido = random.choice(jogos_filtrados)
     return montador_json(jogo_escolhido)
-
-#@app.route('/esquecidos')
-#def esquecidos():
-#    jogos = pegar_jogos(steamid)
-#    jogos_filtrados = []
-#    data_atual = datetime.now()
-#    data_atual = data_atual.strftime("%d/%m/%Y")
-
-
+@app.route('/esquecidos')
+def esquecidos():
+    jogos = pegar_jogos(steamid)
+    jogos_filtrados = []
+    for jogo in jogos:
+        ultima_vez_jogado = datetime.fromtimestamp(jogo['rtime_last_played'])
+        if ultima_vez_jogado <= datetime.now() - timedelta(days=180) and jogo['playtime_forever'] > 0:
+            jogos_filtrados.append(jogo)
+    return montador_json(random.choice(jogos_filtrados))
 
 app.run(port=5000,host='localhost',debug=True)
