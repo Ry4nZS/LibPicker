@@ -22,8 +22,7 @@ def montador_json(jogo):
     data = datetime.fromtimestamp(jogo['rtime_last_played'])
     data = data.strftime("%d/%m/%Y")
     appid = str(jogo['appid'])
-    img_icon_url = str(jogo['img_icon_url'])
-    img_url_montada = "http://media.steampowered.com/steamcommunity/public/images/apps/{}/{}.jpg".format(appid, img_icon_url)
+    img_url_montada = "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/{}/library_600x900.jpg".format(appid) # Tá pegando img do steamDB
     resposta_jogo = {
         "nome_jogo": jogo['name'],
         "tempo_de_jogo": jogo['playtime_forever'],
