@@ -2,21 +2,12 @@ import random
 from flask import Flask, jsonify, request
 from Back.steam_api_handler import *
 from dotenv import load_dotenv
-import os
 from datetime import datetime, timedelta
-from google import genai
+from flask_cors import CORS
 
 app = Flask(__name__) # Cria uma aplicação flask com o nome do arquivo atual.
+CORS(app)
 load_dotenv() # Carrega as variaveis de ambientes de teste para o código
-client = genai.Client(api_key=os.getenv("GENAI_API_KEY")) # Carregando a chave de API do gemini
-steamid = os.getenv("steamid") # Pegando MEU steamid por enquanto
-
-def desc_jogo(nome_jogo):
-    resposta_gemini = client.models.generate_content(
-    model = "gemini-2.5-pro",
-    contents="Gere uma descrição breve e concisa de " + nome_jogo + "." + "Não passe de um parágrafo."
-    )
-    return resposta_gemini.text
 
 def montador_json(jogo):
     data = datetime.fromtimestamp(jogo['rtime_last_played'])
@@ -29,13 +20,22 @@ def montador_json(jogo):
         "ultima_vez_jogado": data,
         "img_url_montada": img_url_montada,
         "appid": jogo['appid'],
-        "descricao": desc_jogo(jogo['name'])
     }
     return resposta_jogo
+
+@app.route('/username')
+def pegar_username():
+    steamid = request.args.get("steamid")
+    url = f"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={KEY}&steamids={steamid}"
+    resposta = requests.get(url)
+    data = resposta.json()
+    nome = data["response"]["players"][0]["personaname"]
+    return jsonify({"username": nome})
 
 #Sugerir um jogo aleatório que o usuário nunca jogou
 @app.route('/nuncajogados')
 def sugestao_nunca_jogado():
+    steamid = request.args.get("steamid")
     jogos = pegar_jogos(steamid)
     jogos_filtrados = []
     for jogo in jogos:
@@ -49,6 +49,7 @@ def sugestao_nunca_jogado():
 @app.route('/poucotempodejogo')
 def sugestao_poucotempodejogo():
     # Fazer verificação depois se existem jogos na biblioteca do usuário.
+    steamid = request.args.get("steamid")
     jogos = pegar_jogos(steamid)
     jogos_filtrados = []
     for jogo in jogos:
@@ -60,12 +61,14 @@ def sugestao_poucotempodejogo():
 #Sorteio dentre todos os jogos incluindo os grátis
 @app.route('/sorteiotodos')
 def sorteiotodos():
+    steamid = request.args.get("steamid")
     jogos = pegar_jogos(steamid)
     jogo_escolhido = random.choice(jogos)
     return montador_json(jogo_escolhido)
 
 @app.route('/maisjogados')
 def maisjogados():
+    steamid = request.args.get("steamid")
     jogos = pegar_jogos(steamid)
     jogos_filtrados = []
     jogos.sort(key=lambda jogo: jogo['playtime_forever'], reverse=True)
@@ -75,6 +78,7 @@ def maisjogados():
 
 @app.route('/esquecidos')
 def esquecidos():
+    steamid = request.args.get("steamid")
     jogos = pegar_jogos(steamid)
     jogos_filtrados = []
     for jogo in jogos:

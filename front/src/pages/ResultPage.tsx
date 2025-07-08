@@ -45,11 +45,11 @@ const ResultPage: React.FC = () => {
   return (
     <div className="semi-box">
       <button onClick={() => navigate(-1)} style={{ float: 'right' }}>Back</button>
-      <h2>{username}</h2>
+      <h2>Conta: {username}</h2>
       <h3>{game?.nome_jogo}</h3>
       <img src={game?.img_url_montada} alt="Game Cover" style={{ width: 200, height: 300, borderRadius: 8 }} />
-      <p><strong>Playtime:</strong> {Math.round((game?.tempo_de_jogo || 0) / 60)} hours</p>
-      <p><strong>Last Played:</strong> {game?.ultima_vez_jogado}</p>
+      <p><strong>Tempo de jogo:</strong> {Math.round((game?.tempo_de_jogo || 0) / 60)} horas</p>
+      <p><strong>Última vez jogado em:</strong> {game?.ultima_vez_jogado}</p>
       <p><strong>Steam ID:</strong> {steamId}</p>
     </div>
   );

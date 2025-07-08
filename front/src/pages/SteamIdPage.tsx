@@ -16,7 +16,7 @@ const SteamIdPage: React.FC = () => {
     <div className="semi-box">
       <h1>LibPicker</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="steamId">Enter your Steam ID:</label>
+        <label htmlFor="steamId">Insira seu Steam ID:</label>
         <input
           id="steamId"
           type="text"
