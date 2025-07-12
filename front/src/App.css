@@ -80,8 +80,12 @@ body, html, #root, .background {
 }
 
 .semi-box h1, .semi-box h2, .semi-box h3 {
-  color: #222;
+  color: #000;
   margin-bottom: 1rem;
+}
+
+.semi-box p, .semi-box label, .semi-box div {
+  color: #000;
 }
 
 .semi-box form {
