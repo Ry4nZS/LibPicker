@@ -28,12 +28,12 @@ const SteamIdPage: React.FC = () => {
           <strong>Como usar:</strong>
         </p>
         <p style={{ margin: '0', fontSize: '0.8rem', lineHeight: '1.4' }}>
-          Digite seu Steam ID para descobrir qual jogo da sua biblioteca você deve jogar hoje! 
+          Digite seu steamID64 para descobrir qual jogo da sua biblioteca você deve jogar hoje!
           O sistema escolherá aleatoriamente um jogo baseado nos seus dados do Steam.
         </p>
       </div>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="steamId">Insira seu Steam ID:</label>
+        <label htmlFor="steamId">Insira seu steamID64:</label>
         <input
           id="steamId"
           type="text"

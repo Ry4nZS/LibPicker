@@ -7,7 +7,6 @@ from flask_cors import CORS
 
 app = Flask(__name__) # Cria uma aplicação flask com o nome do arquivo atual.
 CORS(app)
-load_dotenv() # Carrega as variaveis de ambientes de teste para o código
 
 def montador_json(jogo):
     data = datetime.fromtimestamp(jogo['rtime_last_played'])
@@ -41,14 +40,12 @@ def sugestao_nunca_jogado():
     for jogo in jogos:
         if jogo['playtime_forever'] == 0:
             jogos_filtrados.append(jogo)
-    #Fazer verificação depois se existem jogos não jogados na biblioteca do usuário.
     jogo_escolhido = random.choice(jogos_filtrados)
     return montador_json(jogo_escolhido)
 
 #Sugerir um jogo com pouco playtime (até 10 horas)
 @app.route('/poucotempodejogo')
 def sugestao_poucotempodejogo():
-    # Fazer verificação depois se existem jogos na biblioteca do usuário.
     steamid = request.args.get("steamid")
     jogos = pegar_jogos(steamid)
     jogos_filtrados = []
