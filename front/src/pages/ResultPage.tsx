@@ -77,7 +77,8 @@ const ResultPage: React.FC = () => {
             borderRadius: '8px',
             border: '1px solid #bbb',
             fontSize: '1rem',
-            backgroundColor: 'white'
+            backgroundColor: 'white',
+            color:'black'
           }}
         >
           {API_ROUTES.map(route => (
@@ -112,7 +113,8 @@ const ResultPage: React.FC = () => {
         game?.ultima_vez_jogado === 'never' || 
         game?.ultima_vez_jogado === 'Never' || 
         game?.ultima_vez_jogado === '0' || 
-        game?.ultima_vez_jogado === '' || 
+        game?.ultima_vez_jogado === '' ||
+        game?.ultima_vez_jogado === '31/12/1969' ||
         game?.ultima_vez_jogado === null || 
         game?.ultima_vez_jogado === undefined
           ? 'Nunca'
